@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 import { AUTH_CONFIG } from './auth0-variables';
-
-// Avoid name not found warnings
-declare var auth0: any;
+import * as auth0 from 'auth0-js/build/auth0';
 
 @Injectable()
 export class Auth0Service {
@@ -15,8 +14,13 @@ export class Auth0Service {
     clientID: AUTH_CONFIG.clientID,
     redirectUri: AUTH_CONFIG.callbackURL,
     audience: `https://${AUTH_CONFIG.domain}/userinfo`,
-    responseType: 'token id_token'
+    responseType: 'token id_token',
+    params: {
+      scope: 'profile'
+    }
   });
+
+  public userProfile: any;
 
   constructor(private router: Router) {
   }
@@ -27,7 +31,7 @@ export class Auth0Service {
         window.location.hash = '';
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       } else if (authResult && authResult.error) {
         alert(`Error: ${authResult.error}`);
       }
@@ -45,7 +49,7 @@ export class Auth0Service {
         return;
       }
       this.setUser(data);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/']);
     });
   }
 
@@ -54,7 +58,7 @@ export class Auth0Service {
       connection: 'Username-Password-Authentication',
       email,
       password,
-    }, function(err) {
+    }, function (err) {
       if (err) {
         alert(`Error: ${err.description}`);
       }
@@ -64,7 +68,7 @@ export class Auth0Service {
   public loginWithGoogle(): void {
     this.auth0.authorize({
       connection: 'google-oauth2',
-    }, function(err) {
+    }, function (err) {
       if (err) {
         alert(`Error: ${err.description}`);
       }
@@ -80,6 +84,13 @@ export class Auth0Service {
     // Remove token from localStorage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
+    this.router.navigate(['/pages/login']);
+  }
+
+  public getProfile(): any {
+    this.auth0.client.userInfo(localStorage.getItem('access_token'), function (err, user) {
+      return user;
+    });
   }
 
   private setUser(authResult): void {
