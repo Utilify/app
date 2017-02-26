@@ -1,9 +1,9 @@
 {
-  "name": "Utilify",
+  "name": "utilify",
   "version": "0.0.1",
   "description": "Open Source Bootstrap Admin Template",
   "author": "",
-  "url": "http://utilify.io",
+  "url": "http://app.utilify.io",
   "copyright": "Copyright 2017 creativeLabs Łukasz Holeczek",
   "license": "MIT",
   "angular-cli": {},
@@ -26,6 +26,7 @@
     "@angular/router": "3.4.6",
     "@angular/upgrade": "2.4.6",
     "angular2-jwt": "^0.1.28",
+    "auth0-js": "^8.2.0",
     "chart.js": "2.4.0",
     "core-js": "2.4.1",
     "moment": "2.17.1",
@@ -37,7 +38,7 @@
   },
   "devDependencies": {
     "@types/jasmine": "2.5.41",
-    "angular-cli": "1.0.0-beta.28.3",
+    "angular-cli": "1.0.0-beta.25.5",
     "codelyzer": "2.0.0-beta.4",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "3.2.0",
