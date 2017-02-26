@@ -1,10 +1,10 @@
 {
   "name": "utilify",
   "version": "0.0.1",
-  "description": "Open Source Bootstrap Admin Template",
+  "description": "utility provider integration",
   "author": "",
   "url": "http://app.utilify.io",
-  "copyright": "Copyright 2017 creativeLabs Łukasz Holeczek",
+  "copyright": "Copyright 2017 utilify",
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
