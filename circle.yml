@@ -1,0 +1,12 @@
+machine:
+  node:
+    version: 6.9.0
+dependencies:
+  pre:
+    - npm install npm@latest -g
+    - npm install angular-cli@latest -g
+  post:
+    - ng build --env=prod
+test:
+  override:
+    - npm run test
