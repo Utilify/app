@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { Http, HttpModule, RequestOptions } from '@angular/http';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
+
+export function AuthHttpFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig(), http, options);
+}
 
 import { AppComponent } from './app.component';
 import { DropdownModule } from 'ng2-bootstrap/dropdown';
@@ -19,7 +25,6 @@ import { AppRoutingModule } from './app.routing';
 import { FullLayoutComponent } from './layouts/full-layout.component';
 import { SimpleLayoutComponent } from './layouts/simple-layout.component';
 
-import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { Auth0Service } from './services/auth0/auth0.service';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -29,7 +34,8 @@ import { AuthGuard } from './guards/auth.guard';
     AppRoutingModule,
     DropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    HttpModule
   ],
   declarations: [
     AppComponent,
@@ -44,9 +50,13 @@ import { AuthGuard } from './guards/auth.guard';
     provide: LocationStrategy,
     useClass: HashLocationStrategy,
   },
-  AUTH_PROVIDERS,
-  Auth0Service,
-  AuthGuard],
-  bootstrap: [ AppComponent ]
+  {
+    provide: AuthHttp,
+    deps: [Http, RequestOptions],
+    useFactory: AuthHttpFactory
+  },
+    Auth0Service,
+    AuthGuard],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
