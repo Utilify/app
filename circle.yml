@@ -7,3 +7,9 @@ dependencies:
     - npm install angular-cli@latest -g
   post:
     - ng build --env=prod
+test:
+  override:
+    - echo "no tests"
+general:
+  artifacts:
+    - "dist"
